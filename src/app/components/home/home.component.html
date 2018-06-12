@@ -1,0 +1,51 @@
+<nav class="navbar navbar-light bg-light justify-content-between">
+    <a class="navbar-brand"> <img *ngIf="weather" class="icon" src="{{'http://openweathermap.org/img/w/' + weather?.list[0].weather[0].icon + '.png'}}">Forecast</a>
+    <form class="form-inline" (submit)="false">
+        <input #city id="#autocomplete-field" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" (keypress.enter)="search(city.value)">
+        <button class="btn btn-outline-success my-2 my-sm-0" (click)="search(city.value)">Search</button>
+    </form>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="class col">
+            <div class="date">
+                <p>{{convertDate(weather?.list[0].dt_txt) | date: 'EEEE, d LLLL'}}</p>
+            </div>
+            <div class="today-weather">
+                <p class="city">{{weather?.city.name + ', ' + weather?.city.country}}</p>
+                <p class="temperature"><span>{{celsiusFormat(weather?.list[0].main.temp)}}<sup>o</sup></span>C</p>
+                <p class="shine"><img *ngIf="weather" class="icon" src="{{'http://openweathermap.org/img/w/' + weather?.list[0].weather[0].icon + '.png'}}">{{weather?.list[0].weather[0].main}}</p>
+            </div>
+            <div class="info-panel bg-light">
+                <ul>
+                    <li><strong>Pressure: </strong> <span>{{weather?.list[0].main.pressure}}</span></li>
+                    <li><strong>Humidity: </strong> <span>{{weather?.list[0].main.humidity}}</span></li>
+                    <li><strong>Wind Speed: </strong> <span>{{weather?.list[0].wind.speed}}m/s</span></li>
+                    <li><strong>Clouds: </strong> <span>{{weather?.list[0].clouds.all}}%</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a (click)="redrawChart('temp')" class="nav-item nav-link active" id="temp" data-toggle="tab"  role="tab" aria-controls="temp" aria-selected="active">Temperature</a>
+                    <a (click)="redrawChart('wind')" class="nav-item nav-link" id="wind" data-toggle="tab"  role="tab" aria-controls="wind" aria-selected="false">Wind</a>
+                    <a (click)="redrawChart('pressure')" class="nav-item nav-link" id="pressure" data-toggle="tab"  role="tab" aria-controls="pressure" aria-selected="false">Pressure</a>
+                    <a (click)="redrawChart('humidity')" class="nav-item nav-link" id="humidity" data-toggle="tab"  role="tab" aria-controls="humidity" aria-selected="false">Humidity</a>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div #chartTarget>
+                chart target
+            </div>
+        </div>
+    </div>
+</div>
+
+
